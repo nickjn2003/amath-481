@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.sparse.linalg import eigs
 from scipy.integrate import solve_ivp
+import math
 
 ############################################################################################################
 # part a
@@ -24,7 +25,6 @@ for jmodes in range(5):  # begin mode loop
         bc = ys[-1,1] + np.sqrt(L**2 - epsilon) * ys[-1,0]
 
         if abs(bc) < tol:
-            # print(j)
             break
 
         if (-1)**jmodes * bc > 0:
@@ -83,7 +83,8 @@ def hw3_rhs_c(x, y, epsilon, gamma):
 
 L = 2
 xp = [-L, L]
-x = np.arange(-L, L, 0.1)
+x = np.arange(-L, L + 0.1, 0.1)
+
 n = len(x)
 
 eigvals = []
@@ -102,7 +103,7 @@ for gamma in [0.05, -0.05]:
         A = 1e-3
         for j in range(1000):  
             y0 = [A, np.sqrt(L**2 - E) * A]
-            ys = solve_ivp(hw3_rhs_c, xp, y0, t_eval = x, args=(E, gamma))
+            ys = solve_ivp(hw3_rhs_c, [x[0],x[-1]], y0, t_eval = x, args=(E, gamma))
             norm = np.trapz(ys.y[0,:] * ys.y[0,:], x)
             y1 = np.sqrt(L**2 - E) * ys.y[0,-1]
             y2 = ys.y[1,-1]
@@ -176,7 +177,7 @@ h = np.array([np.ones_like(x), 2*x, 4*(x**2)-2, 8*(x**3)-12*x, 16*(x**4)-48*(x**
 phi = np.zeros((len(x),5))
 
 for j in range(5):
-    phi[:,j] = np.exp(-(x**2)/2)*h[j,:] / np.sqrt(np.math.factorial(5)*(2**j)*np.sqrt(np.pi)).T
+    phi[:,j] = np.exp(-(x**2)/2)*h[j,:] / np.sqrt(math.factorial(5)*(2**j)*np.sqrt(np.pi)).T
 
 erpsi_a = np.zeros(5)
 erpsi_b = np.zeros(5)
@@ -193,6 +194,7 @@ A10 = erpsi_a
 A12 = erpsi_b
 A11 = er_a
 A13 = er_b
+
 
 
 
