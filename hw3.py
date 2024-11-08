@@ -173,27 +173,32 @@ A9 = [fit45[0], fit23[0], fitRadau[0], fitBDF[0]]
 
 ############################################################################################################
 #part e
+L = 4
+x = np.arange(-L, L + 0.1, 0.1)
+
 h = np.array([np.ones_like(x), 2*x, 4*(x**2)-2, 8*(x**3)-12*x, 16*(x**4)-48*(x**2)+12])
 phi = np.zeros((len(x),5))
 
 for j in range(5):
-    phi[:,j] = np.exp(-(x**2)/2)*h[j,:] / np.sqrt(math.factorial(5)*(2**j)*np.sqrt(np.pi)).T
+    phi[:,j] = np.exp(-(x**2)/2)*h[j,:] / np.sqrt(math.factorial(j)*(2**j)*np.sqrt(np.pi)).T
 
 erpsi_a = np.zeros(5)
 erpsi_b = np.zeros(5)
 er_a = np.zeros(5)
 er_b = np.zeros(5)
 
+
 for j in range(5):
     erpsi_a[j] = np.trapz((abs(ysola[:,j])-abs(phi[:,j]))**2, x)
     erpsi_b[j] = np.trapz((abs(ysolb[:,j])-abs(phi[:,j]))**2, x)
-    er_a[j] = 100 * abs(esola[j]-((2*(j+1)-1)/(2*(j+1)-1)))
-    er_b[j] = 100 * abs(esolb[j]-((2*(j+1)-1)/(2*(j+1)-1)))
 
 A10 = erpsi_a
 A12 = erpsi_b
-A11 = er_a
-A13 = er_b
+
+exact_evals = [1,3,5,7,9]
+A11 = 100 * np.abs((A2 - exact_evals) / exact_evals)
+A13 = 100 * np.abs((A4 - exact_evals) / exact_evals)
+
 
 
 
