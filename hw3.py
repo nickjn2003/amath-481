@@ -194,52 +194,6 @@ A12 = erpsi_b
 A11 = er_a
 A13 = er_b
 
-import numpy as np
-
-# Define necessary parameters
-L = 4
-x = np.linspace(-L, L, 81)  # Ensure x is compatible across all calculations
-n = len(x)
-
-# Define Gauss-Hermite polynomials up to degree 4 (for eigenfunctions n=0,1,2,3,4)
-# Hermite polynomials as exact solutions
-h = np.array([
-    np.ones_like(x),                          # H0(x) = 1
-    2 * x,                                    # H1(x) = 2x
-    4 * (x**2) - 2,                           # H2(x) = 4x^2 - 2
-    8 * (x**3) - 12 * x,                      # H3(x) = 8x^3 - 12x
-    16 * (x**4) - 48 * (x**2) + 12            # H4(x) = 16x^4 - 48x^2 + 12
-])
-
-# Initialize array for exact eigenfunctions (phi) based on Gaussian weighting and normalization
-phi = np.zeros((n, 5))
-for j in range(5):
-    phi[:, j] = np.exp(-(x**2)/2) * h[j, :] / np.sqrt(np.math.factorial(j) * (2**j) * np.sqrt(np.pi))
-
-# Assuming 'ysola' and 'esola' are numerical solutions for eigenfunctions and eigenvalues from parts (a) and (b)
-# Here we'll mock 'ysola' and 'esola' for this demonstration
-# For actual use, replace these arrays with the computed values from parts (a) and (b)
-     # Mocked for demonstration; replace with actual esola from (a) and (b)
-
-# Define exact eigenvalues for Hermite polynomials (n + 0.5 for harmonic oscillator problem)
-exact_eigenvalues = np.array([0.5, 1.5, 2.5, 3.5, 4.5])
-
-# Compute the error for eigenfunctions and eigenvalues
-# Eigenfunction error: ∥ |φnumerical| − |φexact| ∥
-erpsi_a = np.zeros(5)
-for j in range(5):
-    erpsi_a[j] = np.trapz((np.abs(ysola[:, j]) - np.abs(phi[:, j]))**2, x)  # L2 norm error
-
-# Eigenvalue error: relative percent error 100 * (|εnumerical - εexact| / εexact)
-er_a = 100 * np.abs((esola - exact_eigenvalues) / exact_eigenvalues)
-
-# Output results
-A10 = erpsi_a  # Eigenfunction errors for part (a)
-A11 = er_a     # Eigenvalue errors for part (a)
-
-print("Eigenfunction Errors (A10):", A10)
-print("Eigenvalue Errors (A11):", A11)
-
 
 
 
