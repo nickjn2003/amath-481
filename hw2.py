@@ -2,6 +2,7 @@ import numpy as np
 from scipy.integrate import odeint
 from scipy.integrate import RK45
 import matplotlib.pyplot as plt
+from scipy.integrate import solve_ivp
 
 def shoot2(phi, x, epsilon):
     return [phi[1], (x**2 - epsilon) * phi[0]]
