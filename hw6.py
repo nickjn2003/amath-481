@@ -2,13 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.fftpack import fft2, ifft2
 from scipy.integrate import solve_ivp
-from scipy.sparse import spdiags
-from scipy.linalg import lu, solve_triangular, kron
+from scipy.linalg import kron
 
 ############################################################################################################
 # part a
-D1 = 0.1
-D2 = 0.1
+D1 = D2 = 0.1
 beta = 1
 T = 4
 tspan = np.arange(0, 4 + 0.5, 0.5)
@@ -100,6 +98,7 @@ X, Y = np.meshgrid(x, y)
 X = X * 10
 Y = Y * 10
 
+m = 1
 u = np.tanh(np.sqrt(X**2 + Y**2)) * np.cos(m * np.angle(x+1j * Y) - np.sqrt(X**2 + Y**2))
 v = np.tanh(np.sqrt(X**2 + Y**2)) * np.sin(m * np.angle(x+1j * Y) - np.sqrt(X**2 + Y**2))
 uv0 = np.hstack([(u.reshape(N2)), (v.reshape(N2))])
