@@ -31,8 +31,8 @@ KX, KY = np.meshgrid(kx, ky)
 K = KX**2 + KY**2
 
 m = 1
-u = np.tanh(np.sqrt(X**2 + Y**2)) * np.cos(m * np.angle(x+1j * Y) - np.sqrt(X**2 + Y**2))
-v = np.tanh(np.sqrt(X**2 + Y**2)) * np.sin(m * np.angle(x+1j * Y) - np.sqrt(X**2 + Y**2))
+u = np.tanh(np.sqrt(X**2 + Y**2)) * np.cos(m * np.angle(X+1j * Y) - np.sqrt(X**2 + Y**2))
+v = np.tanh(np.sqrt(X**2 + Y**2)) * np.sin(m * np.angle(X+1j * Y) - np.sqrt(X**2 + Y**2))
 
 ut = fft2(u)
 vt = fft2(v)
@@ -99,8 +99,8 @@ X = X * 10
 Y = Y * 10
 
 m = 1
-u = np.tanh(np.sqrt(X**2 + Y**2)) * np.cos(m * np.angle(x+1j * Y) - np.sqrt(X**2 + Y**2))
-v = np.tanh(np.sqrt(X**2 + Y**2)) * np.sin(m * np.angle(x+1j * Y) - np.sqrt(X**2 + Y**2))
+u = np.tanh(np.sqrt(X**2 + Y**2)) * np.cos(m * np.angle(X+1j * Y) - np.sqrt(X**2 + Y**2))
+v = np.tanh(np.sqrt(X**2 + Y**2)) * np.sin(m * np.angle(X+1j * Y) - np.sqrt(X**2 + Y**2))
 uv0 = np.hstack([(u.reshape(N2)), (v.reshape(N2))])
 
 def RD_2D(t, uv):
@@ -108,11 +108,11 @@ def RD_2D(t, uv):
     v = uv[N2:]
 	
     A_2 = u**2 + v**2
-    lam = 1-A_2
+    lam = 1 - A_2
     omeg = -beta * A_2
 
     rhs_u = D1 * np.dot(L, u) + lam * u - omeg * v
-    rhs_v = D2 * np.dot(L, u) + omeg * u - lam * v
+    rhs_v = D2 * np.dot(L, v) + omeg * u + lam * v
     rhs = np.hstack([rhs_u, rhs_v])
     return rhs
 uvsol = solve_ivp(RD_2D, [0, T], uv0, t_eval=tspan, args=(), method="RK45")

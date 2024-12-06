@@ -4,6 +4,7 @@ from scipy.fftpack import fft2, ifft2
 from scipy.integrate import solve_ivp
 from scipy.sparse import spdiags
 from scipy.linalg import lu, solve_triangular
+import imageio
 
 ############################################################################################################
 # part a
@@ -112,3 +113,20 @@ A3 = wsolB2.y
 
 # plt.tight_layout
 # plt.show()
+
+# frames = []
+# # make animation
+# for j, t in enumerate(tspan):
+#     w = wsolB2.y[:, j].reshape((nx, ny)) # Reconstruct the solution at time t
+#     plt.pcolor(x, y, w)
+#     plt.title(f'Time: {t}')
+#     plt.colorbar()
+
+#     frame_filename = f"frame_{j}.png"
+#     plt.savefig(frame_filename)
+#     plt.close()
+#     frames.append(imageio.imread(frame_filename))
+#     # os.remove(frame_filename)
+
+# gif_filename = "same_charged_gaussian.gif"
+# imageio.mimsave(gif_filename, frames, fps=3)
